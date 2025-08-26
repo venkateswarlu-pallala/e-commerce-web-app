@@ -1,0 +1,95 @@
+.Shop-filters {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.Shop-filters button {
+  background: #14213d;
+  color: white;
+  border: 1px solid #14213d;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.Shop-filters button:hover, .Shop-filters button:focus {
+  background: #fca311;
+  color: #14213d;
+  border-color: #fca311;
+  outline: none;
+}
+
+.Shop-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.Shop-item-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Shop-item-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+}
+
+.Shop-item-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.Shop-item-details {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.Shop-item-details h3 {
+  margin-top: 0;
+  color: #14213d;
+}
+
+.Shop-item-details p {
+  color: #666;
+  flex-grow: 1;
+}
+
+.Shop-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #14213d;
+}
+
+.add-to-cart-btn {
+  background-color: #fca311;
+  color: #14213d;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #e8950a;
+}

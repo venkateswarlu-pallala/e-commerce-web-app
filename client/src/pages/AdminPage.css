@@ -1,0 +1,74 @@
+.admin-page {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.admin-form-container, .admin-list-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.admin-form-container h2, .admin-list-container h2 {
+    margin-top: 0;
+    color: #14213d;
+}
+
+.admin-form-container form input, .admin-form-container form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-buttons button {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #14213d;
+    color: white;
+    font-weight: bold;
+}
+
+.form-buttons button[type="button"] {
+    background-color: #ccc;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.btn-edit, .btn-delete {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.btn-edit { background-color: #2196F3; }
+.btn-delete { background-color: #f44336; }
