@@ -10,7 +10,7 @@ const MenuPage = () => {
     const [shopItems, setShopItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [_activeCategory, setActiveCategory] = useState('All');
+    const [ setActiveCategory] = useState('All');
 
     useEffect(() => {
         const fetchShopItems = async () => {
