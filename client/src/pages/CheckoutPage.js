@@ -29,11 +29,19 @@ const CheckoutPage = () => {
     setLoading(true);
     setError(null);
 
-    try {
-      // Send cart and shipping info to the backend. No payment token is needed.
+        try {
+      const { data: createdOrder } = await api.post('/orders', { // Destructure data as createdOrder
+        orderItems: cartItems,
+        shippingAddress,
+        paymentMethod: 'Dummy Payment',
+        itemsPrice: totalPrice,
+        taxPrice: 0,
+        shippingPrice: 0,
+        totalPrice
+      });
       clearCart();
       // Redirect to a success page showing the new order's ID
-      navigate(`/order-success/₹{createdOrder._id}`);
+      navigate(`/order-success/${createdOrder._id}`); // Correct template literal usage
 
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create order. Please try again.');
