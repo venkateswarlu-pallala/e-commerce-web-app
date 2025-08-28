@@ -31,15 +31,6 @@ const CheckoutPage = () => {
 
     try {
       // Send cart and shipping info to the backend. No payment token is needed.
-      const { data: createdOrder } = await api.post('/orders', {
-        orderItems: cartItems,
-        shippingAddress,
-        paymentMethod: 'Dummy Payment',
-        itemsPrice: totalPrice,
-        taxPrice: 0,
-        shippingPrice: 0,
-        totalPrice
-      });
       clearCart();
       // Redirect to a success page showing the new order's ID
       navigate(`/order-success/₹{createdOrder._id}`);
