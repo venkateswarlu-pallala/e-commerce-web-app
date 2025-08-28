@@ -1,53 +1,44 @@
 import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import CartContext from '../context/CartContext';
-import api from '../services/api';
-import './CartPage.css';
+import './CartPage.css'; // We will update this file
 
 const CartPage = () => {
-    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext);
+    // Note: We don't need clearCart here anymore, as it happens after a successful checkout.
+    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+    const navigate = useNavigate();
 
     const totalAmount = cartItems.reduce((a, c) => a + c.price * c.quantity, 0);
 
-    const placeOrderHandler = async () => {
-        const orderItems = cartItems.map(item => ({
-            ShopItem: item._id,
-            quantity: item.quantity
-        }));
-
-        const order = {
-            items: orderItems,
-            totalAmount: totalAmount
-        };
-
-        try {
-            await api.post('/orders', order);
-            alert('Order placed successfully!');
-            clearCart();
-        } catch (error) {
-            alert('Failed to place order. Please make sure you are logged in.');
-            console.error(error);
-        }
+    // This handler's only job is to move the user to the checkout page.
+    const checkoutHandler = () => {
+        // You could add a check here to redirect to login if the user is not authenticated
+        navigate('/checkout');
     };
 
     return (
+        
         <div className="cart-page">
-            <h2>Your Shopping Cart</h2>
+            <h1>Your Shopping Cart</h1>
             {cartItems.length === 0 ? (
-                <p>Your cart is empty.</p>
+                <div className="cart-empty">
+                    <p>Your cart is empty.</p>
+                    <Link to="/" className="btn btn-primary">Go Shopping</Link>
+                </div>
             ) : (
                 <div className="cart-container">
                     <div className="cart-items-list">
                         {cartItems.map(item => (
                             <div key={item._id} className="cart-item">
-                                <img src={item.imageUrl || 'https://via.placeholder.com/100'} alt={item.name} />
+                                <img src={item.imageUrl || 'https://via.placeholder.com/100'} alt={item.name} className="cart-item-image"/>
                                 <div className="cart-item-info">
                                     <h3>{item.name}</h3>
-                                    <p>${item.price.toFixed(2)}</p>
+                                    <p className="cart-item-price">₹{item.price.toFixed(2)}</p>
                                 </div>
                                 <div className="cart-item-actions">
-                                    <button onClick={() => removeFromCart(item._id)}>-</button>
+                                    <button onClick={() => removeFromCart(item._id)} aria-label="Remove one item">-</button>
                                     <span>{item.quantity}</span>
-                                    <button onClick={() => addToCart(item)}>+</button>
+                                    <button onClick={() => addToCart(item)} aria-label="Add one item">+</button>
                                 </div>
                                 <div className="cart-item-subtotal">
                                     ₹{(item.price * item.quantity).toFixed(2)}
@@ -56,11 +47,27 @@ const CartPage = () => {
                         ))}
                     </div>
                     <div className="cart-summary">
-                        <h3>Order Summary</h3>
-                        <p>Total: <span>${totalAmount.toFixed(2)}</span></p>
-                        <button onClick={placeOrderHandler} disabled={cartItems.length === 0}>
-                            Place Order
-                        </button>
+                        <h2>Order Summary</h2>
+                        <div className="summary-row">
+                            <span>Subtotal</span>
+                            <span>₹{totalAmount.toFixed(2)}</span>
+                        </div>
+                        <div className="summary-row">
+                            <span>Shipping</span>
+                            <span>Free</span>
+                        </div>
+                        <div className="summary-total">
+                            <span>Total</span>
+                            <span>₹{totalAmount.toFixed(2)}</span>
+                        </div>
+                        <button
+    onClick={checkoutHandler}
+    // Use the global button classes for a consistent, advanced look
+    className="btn btn-primary btn-glow"
+    disabled={cartItems.length === 0}
+>
+    Proceed to Checkout
+</button>
                     </div>
                 </div>
             )}

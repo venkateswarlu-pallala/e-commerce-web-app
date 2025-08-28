@@ -14,6 +14,8 @@ import AdminPage from './pages/AdminPage';
 import CartPage from './pages/CartPage';
 import Header from './components/Header';
 import './App.css';
+import CheckoutPage from './pages/CheckoutPage';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 
 function App() {
   return (
@@ -29,8 +31,8 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/admin" element={<AdminPage />} />
-              
-              {/* --- ADD THIS LINE --- */}
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/order-success/:id" element={<OrderSuccessPage />} />
               <Route path="/wishlist" element={<WishlistPage />} />
               
             </Routes>

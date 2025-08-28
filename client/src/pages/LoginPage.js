@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import './LoginPage.css';
 
@@ -12,7 +12,6 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // If user is already logged in, redirect to home
         if (localStorage.getItem('userInfo')) {
             navigate('/');
         }
@@ -31,54 +30,82 @@ const LoginPage = () => {
                 data = response.data;
             }
             localStorage.setItem('userInfo', JSON.stringify(data));
-            navigate('/'); // Redirect to homepage after login/register
+            window.location.href = '/'; // Use a hard refresh to update header state
         } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred');
+            setError(err.response?.data?.message || 'An error occurred. Please try again.');
         }
     };
+    
+    // Reset fields when toggling
+    const toggleForm = () => {
+        setIsLogin(!isLogin);
+        setError('');
+        setName('');
+        setEmail('');
+        setPassword('');
+    }
 
     return (
-        <div className="login-container">
-            <div className="login-form">
-                <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
+        <div className="login-page-container">
+            <div className="login-panel">
+                <div className="login-header">
+                    <Link to="/" className="login-logo">V-shop</Link>
+                    <h2>{isLogin ? 'Welcome Back' : 'Create an Account'}</h2>
+                </div>
+                
                 {error && <p className="error-message">{error}</p>}
-                <form onSubmit={submitHandler}>
-                    {!isLogin && (
+
+                <form onSubmit={submitHandler} className="login-form">
+                    {/* Add a dynamic key to reset the component state on toggle for the animation */}
+                    <div key={isLogin ? 'login' : 'signup'} className="form-content">
+                        {!isLogin && (
+                            <div className="form-group">
+                                <label htmlFor="name">Name</label>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    value={name}
+                                    placeholder="e.g. John Doe"
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        )}
                         <div className="form-group">
-                            <label>Name</label>
+                            <label htmlFor="email">Email Address</label>
                             <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                id="email"
+                                type="email"
+                                value={email}
+                                placeholder="e.g. johndoe@example.com"
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
                         </div>
-                    )}
-                    <div className="form-group">
-                        <label>Email Address</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                id="password"
+                                type="password"
+                                value={password}
+                                placeholder="••••••••"
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="btn-submit">
-                        {isLogin ? 'Login' : 'Sign Up'}
+                    
+                    <button type="submit" className="btn btn-primary btn-glow btn-submit">
+                        {isLogin ? 'Log In' : 'Sign Up'}
                     </button>
                 </form>
-                <button onClick={() => setIsLogin(!isLogin)} className="btn-toggle">
-                    {isLogin ? 'New customer? Create an account' : 'Have an account? Log in'}
-                </button>
+
+                <div className="toggle-section">
+                    <p>{isLogin ? "Don't have an account?" : "Already have an account?"}</p>
+                    <button onClick={toggleForm} className="btn-toggle">
+                        {isLogin ? 'Sign Up' : 'Log In'}
+                    </button>
+                </div>
             </div>
         </div>
     );

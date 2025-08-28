@@ -1,0 +1,132 @@
+/* src/pages/OrderSuccessPage.css */
+
+/* ==========================================================================
+   ORDER SUCCESS PAGE STYLING
+   ========================================================================== */
+.order-success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1.5rem;
+  min-height: calc(100vh - 150px);
+}
+
+.order-success-panel {
+  width: 100%;
+  max-width: 550px;
+  background-color: var(--card-background-color);
+  padding: 3rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-medium);
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-title {
+  font-size: 2rem;
+  color: var(--text-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.success-message {
+  color: var(--text-color-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.order-id-display {
+  background-color: var(--background-color);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin-bottom: 2.5rem;
+}
+.order-id-display span {
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+}
+.order-id-display p {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-color-primary);
+  letter-spacing: 1px;
+  margin: 0.25rem 0 0 0;
+  word-break: break-all;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ==========================================================================
+   ANIMATED CHECKMARK SVG
+   ========================================================================== */
+.success-checkmark {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.checkmark-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 4;
+  stroke: var(--success-color);
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px var(--success-color);
+  animation: scale .3s ease-in-out .9s both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+  stroke: var(--success-color);
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 576px) {
+  .order-success-panel {
+    padding: 2rem;
+  }
+  .success-actions {
+    flex-direction: column;
+  }
+  .success-actions .btn {
+    width: 100%;
+  }
+}

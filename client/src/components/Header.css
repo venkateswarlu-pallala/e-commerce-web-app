@@ -1,56 +1,387 @@
-.header {
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 1rem 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  backdrop-filter: blur(10px);
+/* --- Base Styles & Variables --- */
+:root {
+  --primary-color: #007bff; /* Bright blue for accents */
+  --secondary-color: #6c757d; /* Muted gray for secondary actions */
+  --text-color: #333;
+  --light-text-color: #f8f9fa;
+  --header-bg-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+  --dark-overlay-color: rgba(0, 0, 0, 0.6); /* For dark overlays on images */
+  --link-hover-color: var(--primary-color);
+  --badge-bg-color: #dc3545; /* Red for notifications */
+  --border-radius: 8px;
+  --transition-speed: 0.3s ease-in-out;
+  --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --box-shadow-medium: 0 6px 18px rgba(0, 0, 0, 0.15);
+  --header-height-initial: 90px; /* Initial header height */
+  --header-height-scrolled: 70px; /* Shorter header height on scroll */
 }
 
-.header .container {
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif; /* Using a modern font */
+  color: var(--text-color);
+  background-color: #f4f7f6; /* Light background for the body */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- Header & Background Image --- */
+.header {
+  background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c4033?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* High-quality background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed; /* Changed to fixed for shrink effect to work better */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensures header is above other content */
+  box-shadow: var(--box-shadow-light);
+  transition: background-image var(--transition-speed), height var(--transition-speed), padding var(--transition-speed); /* Smooth transition for height/padding */
+  height: var(--header-height-initial); /* Initial height */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center content horizontally */
+}
+
+/* Overlay for better text readability on background image */
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--dark-overlay-color); /* Dark translucent overlay */
+  z-index: -1; /* Behind content but above background image */
+}
+
+/* --- Header Shrink Effect on Scroll --- */
+.header.scrolled {
+  height: var(--header-height-scrolled); /* Shorter height */
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); /* More prominent shadow when scrolled */
+}
+
+.header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 0; /* Padding will now adjust with header height */
+  width: 100%; /* Ensure container takes full width */
+  transition: padding var(--transition-speed);
+}
+
+.header.scrolled .header-container {
+  padding: 0.5rem 0; /* Reduced padding when scrolled */
+}
+
+/* --- Logo Styling --- */
+.logo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .logo a {
-  color: white;
+  color: var(--light-text-color); /* White text for logo */
   text-decoration: none;
-  font-size: 1.8rem;
-  font-weight: bold;
-  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+  transition: color var(--transition-speed), transform var(--transition-speed);
 }
 
+.logo a:hover {
+  color: var(--primary-color);
+  text-shadow: 0 0 10px rgba(0, 123, 255, 0.6); /* Subtle glow on hover */
+  transform: scale(1.02); /* Slight scale on hover */
+}
+
+.logo-icon {
+  font-size: 2rem;
+  /* Add actual icon from a library, e.g., <i class="fas fa-store logo-icon"></i> */
+}
+
+/* --- Navigation Links --- */
 .nav-links {
   display: flex;
   align-items: center;
+  gap: 1.8rem; /* Increased spacing between nav items */
 }
 
-.nav-links a, .btn-logout {
-  color: white;
+.nav-links a,
+.nav-links button {
+  color: var(--light-text-color); /* White text for links */
   text-decoration: none;
-  margin: 0 15px;
-  font-size: 1rem;
   font-weight: 500;
-  transition: color 0.3s ease;
-  background: none;
+  font-size: 1.05rem;
+  padding: 0.5rem 0.8rem; /* Padding for better click area */
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-speed), color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+  position: relative; /* For badge positioning */
+  display: flex; /* For icon and text alignment */
+  align-items: center;
+  gap: 6px; /* Space between icon and text */
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+  background-color: rgba(255, 255, 255, 0.15); /* Slightly more prominent background on hover */
+  color: var(--primary-color); /* Primary color text on hover */
+  transform: translateY(-3px); /* Slightly more pronounced lift effect */
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Subtle shadow on hover */
+}
+
+/* Icons within navigation links */
+.nav-icon {
+  font-size: 1.15rem; /* Slightly larger icons */
+  /* Example: <i class="fas fa-home nav-icon"></i> */
+}
+
+/* --- Badges (Cart/Wishlist Counts) --- */
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--badge-bg-color);
+  color: var(--light-text-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  min-width: 24px; /* Ensures minimum size for single digits */
+  text-align: center;
+  line-height: 1; /* Aligns text vertically */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: scale(1);
+  transition: transform var(--transition-speed), background-color var(--transition-speed);
+}
+
+.nav-links a:hover .badge {
+  transform: scale(1.15); /* More pronounced bounce on parent hover */
+  background-color: #e62e3a; /* Slightly darker red on hover */
+}
+
+/* --- Buttons --- */
+.btn {
   border: none;
   cursor: pointer;
-  font-family: inherit;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+  font-size: 1rem;
+  position: relative; /* For potential pseudo-elements or effects */
+  overflow: hidden; /* For hover effects */
 }
 
-.nav-links a:hover, .btn-logout:hover {
-  color: #fca311;
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--light-text-color);
 }
 
-.cart-badge {
-  background-color: #fca311;
-  color: #14213d;
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker primary on hover */
+  transform: translateY(-3px); /* Consistent with nav link lift */
+  box-shadow: 0 8px 16px rgba(0, 123, 255, 0.4); /* More prominent shadow */
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: var(--light-text-color);
+}
+
+.btn-secondary:hover {
+  background-color: #545b62; /* Darker secondary on hover */
+  transform: translateY(-3px); /* Consistent with nav link lift */
+  box-shadow: 0 8px 16px rgba(108, 117, 125, 0.4); /* More prominent shadow */
+}
+
+/* Adding a subtle "ripple" effect on button hover (optional, requires JS to trigger) */
+/* .btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  padding: 2px 8px;
-  font-size: 0.8rem;
-  margin-left: 5px;
-  font-weight: bold;
+  opacity: 0;
+  transform: scale(0) translate(-50%, -50%);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.btn:hover::after {
+  transform: scale(30) translate(-50%, -50%);
+  opacity: 1;
+} */
+
+
+/* Buttons specifically within the navigation (smaller padding, no larger transform) */
+.nav-btn {
+  padding: 0.6rem 1.2rem;
+  transform: none; /* Override general btn transform */
+  box-shadow: none; /* Override general btn box-shadow */
+}
+
+.nav-btn:hover {
+  transform: translateY(-3px); /* Re-introducing lift for nav buttons */
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Consistent with nav link hover */
+  background-color: rgba(255, 255, 255, 0.15); /* Consistent with link hover */
+  color: var(--primary-color);
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+/* --- Mobile Menu Toggle (Hamburger) --- */
+.nav-toggle {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--light-text-color);
+  cursor: pointer;
+  display: none; /* Hidden on desktop */
+  z-index: 1001; /* Above mobile menu */
+  transition: color var(--transition-speed), transform var(--transition-speed);
+  padding: 0.5rem; /* Add padding for easier tapping */
+  border-radius: var(--border-radius);
+}
+
+.nav-toggle:hover {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+/* --- Responsive Design (Mobile First Approach) --- */
+
+/* Small devices (max-width 768px) */
+@media (max-width: 768px) {
+  .header {
+    height: var(--header-height-scrolled); /* Always use shorter header height on mobile */
+  }
+
+  .header-container {
+    padding: 0.8rem 0;
+  }
+
+  .logo {
+    font-size: 1.8rem;
+  }
+
+  .nav-toggle {
+    display: block; /* Show hamburger on mobile */
+  }
+
+  .nav-links {
+    flex-direction: column; /* Stack links vertically */
+    position: fixed; /* Changed to fixed to cover entire viewport consistently */
+    top: 0; /* Align to top of viewport */
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    background-color: var(--header-bg-color); /* Solid background for mobile menu */
+    padding-top: calc(var(--header-height-scrolled) + 1rem); /* Space for fixed header content + extra padding */
+    transform: translateX(100%); /* Initially off-screen to the right */
+    transition: transform var(--transition-speed);
+    box-shadow: var(--box-shadow-medium);
+    justify-content: flex-start; /* Align items to the top */
+    align-items: center; /* Center items horizontally */
+    gap: 1.5rem; /* Spacing between mobile menu items */
+  }
+
+  .nav-links.open {
+    transform: translateX(0); /* Slide in from the right */
+  }
+
+  .nav-links a,
+  .nav-links button {
+    color: var(--text-color); /* Darker text for readability on white background */
+    width: 80%; /* Make links take up more width */
+    text-align: center;
+    padding: 0.8rem 1rem;
+    background-color: rgba(0, 0, 0, 0.03); /* Subtle background for active areas */
+    justify-content: center; /* Center icon and text */
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Subtle separator for mobile links */
+  }
+
+  .nav-links a:last-of-type,
+  .nav-links button:last-of-type {
+    border-bottom: none; /* No separator for the last item */
+  }
+
+  .nav-links a:hover,
+  .nav-links button:hover {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    transform: translateY(0); /* No lift effect on mobile menu hover to keep it clean */
+    box-shadow: none;
+  }
+
+  /* Specific styles for nav buttons in mobile */
+  .nav-links .btn {
+    width: 80%;
+    margin-top: 1rem; /* Space after links */
+    transform: none; /* Ensure no lift */
+  }
+
+  .nav-links .btn-primary,
+  .nav-links .btn-secondary {
+    color: var(--light-text-color); /* Ensure white text on colored buttons */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow back for mobile buttons */
+  }
+
+  /* Overlay for when mobile menu is open, dims background content */
+  .header.menu-open::before {
+    content: '';
+    position: fixed; /* Fixed so it covers entire page */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+    z-index: 999; /* Below menu but above other content */
+    animation: fadeIn 0.3s forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Medium devices (max-width 992px) - Adjust gap if needed */
+@media (max-width: 992px) {
+  .nav-links {
+    gap: 1.2rem;
+  }
+  .logo {
+    font-size: 2rem;
+  }
+}
+
+/* Body padding adjustment when header is fixed to prevent content from going under it */
+body {
+  padding-top: var(--header-height-initial); /* Initial padding to match header height */
+}
+
+/* You'll need JavaScript to dynamically adjust body padding-top based on header scroll state */
+/* Example: document.body.style.paddingTop = 'var(--header-height-scrolled)'; */
+
+/* Keyframe for subtle breathing animation on the header background image (optional) */
+@keyframes subtleZoom {
+  0% { background-size: 105%; }
+  100% { background-size: 100%; }
+}
+
+.header {
+  animation: subtleZoom 60s ease-in-out infinite alternate; /* Slow, subtle zoom on background */
 }
