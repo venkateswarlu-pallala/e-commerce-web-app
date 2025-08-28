@@ -61,7 +61,7 @@ const Header = () => {
     const headerElement = document.querySelector('.header');
     if (headerElement) {
       const observer = new ResizeObserver(entries => {
-        for (let entry of entries) {
+        for (let _entry of entries) {
           document.body.style.paddingTop = `₹{entry.contentRect.height}px`;
         }
       });

@@ -31,7 +31,7 @@ const CheckoutPage = () => {
 
     try {
       // Send cart and shipping info to the backend. No payment token is needed.
-      const { data: createdOrder } = await api.post('/orders', {
+      const { data: _createdOrder } = await api.post('/orders', {
         cartItems,
         shippingAddress,
       });

@@ -53,7 +53,6 @@ const OrdersPage = () => {
             ) : (
                 <div className="orders-list">
                     {orders.map((order) => {
-                        const isExpanded = expandedOrderId === order._id;
                         return (
                             // Add dynamic class based on expanded state
                             <div key={order._id} className={`order-card ₹{isExpanded ? 'expanded' : ''}`}>
