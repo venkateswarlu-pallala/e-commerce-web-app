@@ -1,7 +1,7 @@
 // server/controllers/OrderController.js
 
 const Order = require('../models/orderModels');
-const ShopItem = require('../models/shopItemModel'); // Ensure this path is correct for your ShopItem model
+const ShopItem = require('../models/ShopItemModel'); // Ensure this path is correct for your ShopItem model
 
 // @desc    Create new order
 // @route   POST /api/orders
