@@ -11,7 +11,7 @@ const app = express();
 // Allowed origins
 const allowedOrigins = [
   'http://localhost:3000',                 // Local React dev
-  'https://your-site.netlify.app'          // Your Netlify deployed site
+  'http://v-shop-website.netlify.app'          // Your Netlify deployed site
 ];
 
 app.use(cors({
@@ -23,7 +23,7 @@ app.use(express.json());
 
 // Define Routes
 app.use('/api/users', require('./routes/authroutes'));
-app.use('/api/Shop', require('./routes/shopRoutes'));
+app.use('/api/shop', require('./routes/shopRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 
 const PORT = process.env.PORT || 5000;

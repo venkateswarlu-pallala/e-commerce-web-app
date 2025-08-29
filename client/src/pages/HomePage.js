@@ -10,13 +10,13 @@ const MenuPage = () => {
     const [shopItems, setShopItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [ setActiveCategory] = useState('All');
+    const [setActiveCategory] = useState('All');
 
     useEffect(() => {
         const fetchShopItems = async () => {
             try {
                 // 3. Ensure this endpoint matches your backend route for shop items
-                const { data } = await api.get('/shop'); 
+                const { data } = await api.get('/api/shop'); 
                 setShopItems(data);
                 setFilteredItems(data);
                 
