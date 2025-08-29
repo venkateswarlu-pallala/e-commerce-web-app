@@ -11,7 +11,7 @@ const app = express();
 // Allowed origins
 const allowedOrigins = [
   'http://localhost:3000',                 // Local React dev
-  'http://v-shop-website.netlify.app'          // Your Netlify deployed site
+  'https://v-shop-website.netlify.app'          // Your Netlify deployed site
 ];
 
 app.use(cors({

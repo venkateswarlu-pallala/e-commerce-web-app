@@ -53,12 +53,13 @@ const ProductCard = React.memo(({ product }) => {
           <h3 className="product-title">{name}</h3>
         </Link>
         <p className="product-description">{description}</p>
-        <div className="product-footer">
-          <span className="product-price">₹{price.toFixed(2)}</span>
-          <button onClick={handleAddToCart} className="btn add-to-cart-btn">
-            Add to Cart
-          </button>
-        </div>
+       <div className="product-footer">
+  <span className="product-price">₹{price?.toFixed(2) ?? '0.00'}</span>
+  <button onClick={handleAddToCart} className="btn add-to-cart-btn">
+    Add to Cart
+  </button>
+</div>
+
       </div>
     </div>
   );

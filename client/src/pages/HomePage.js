@@ -10,7 +10,9 @@ const MenuPage = () => {
     const [shopItems, setShopItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [setActiveCategory] = useState('All');
+    const [activeCategory, setActiveCategory] = useState('All'); // ✅ CORRECT
+
+
 
     useEffect(() => {
         const fetchShopItems = async () => {
@@ -32,13 +34,14 @@ const MenuPage = () => {
 
     // 5. Logic to filter items based on the selected category
     const filterShop = (category) => {
-        setActiveCategory(category);
-        if (category === 'All') {
-            setFilteredItems(shopItems);
-        } else {
-            setFilteredItems(shopItems.filter(item => item.category === category));
-        }
-    }
+  setActiveCategory(category); // now this is a valid function
+  if (category === 'All') {
+    setFilteredItems(shopItems);
+  } else {
+    setFilteredItems(shopItems.filter(item => item.category === category));
+  }
+}
+
 
     return (
         <div className="shop-page">
@@ -53,12 +56,12 @@ const MenuPage = () => {
             <div className="shop-filters">
                 {categories.map(category => (
                     <button 
-                        key={category} 
-                        className={`filter-btn ₹{activeCategory === category ? 'active' : ''}`}
-                        onClick={() => filterShop(category)}
-                    >
-                        {category}
-                    </button>
+  key={category} 
+  className={`filter-btn ${activeCategory === category ? 'active' : ''}`}
+  onClick={() => filterShop(category)}
+>
+  {category}
+</button>
                 ))}
             </div>
 
