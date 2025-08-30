@@ -30,7 +30,7 @@ const CheckoutPage = () => {
     setError(null);
 
         try {
-      const { data: createdOrder } = await api.post('/orders', { // Destructure data as createdOrder
+      const { data: createdOrder } = await api.post('/api/orders', { // Destructure data as createdOrder
         orderItems: cartItems,
         shippingAddress,
         paymentMethod: 'Dummy Payment',
