@@ -73,9 +73,17 @@ const addOrderItems = async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = async (req, res) => {
-  const orders = await Order.find({ user: req.user._id }).populate('order.product', 'name price imageUrl');
-  res.json(orders);
-};
+  try {
+    const orders = await Order.find({ user: req.user._id })
+      .populate('user', 'name email') // You might want to populate the user who placed the order
+      .populate('orderItems.product') // <--- THIS IS THE KEY CHANGE
+      .exec();
 
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
 
 module.exports = { addOrderItems, getMyOrders };
