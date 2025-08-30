@@ -34,7 +34,6 @@ const AdminPage = () => {
             console.error("Failed to fetch shop items:", error);
         }
     };
-
     useEffect(() => {
         fetchShopItems();
     }, []);
