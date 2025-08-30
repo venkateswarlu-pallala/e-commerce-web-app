@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../services/api';
+import api from '../services/api'; // Ensure this path is correct
 import './AdminPage.css'; // The new advanced CSS will apply to this
 
 // --- SVG Icons for a cleaner UI ---
@@ -25,33 +25,38 @@ const AdminPage = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [editingItem, setEditingItem] = useState(null);
 
-    // --- Data Fetching and Handlers (No changes needed here) ---
+    // --- Data Fetching and Handlers ---
     const fetchShopItems = async () => {
         try {
-            const { data } = await api.get('/shop'); // Corrected endpoint
+            // This will now correctly hit your baseURL/shop (e.g., http://localhost:5000/api/shop)
+            const { data } = await api.get('/shop');
             setShopItems(data);
         } catch (error) {
             console.error("Failed to fetch shop items:", error);
+            // You might want to display an error message to the user here
         }
     };
+
     useEffect(() => {
         fetchShopItems();
-    }, []);
+    }, []); // Empty dependency array means this runs once on mount
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        const shopItemData = { name, description, price, category, imageUrl };
+        const shopItemData = { name, description, price: parseFloat(price), category, imageUrl };
 
         try {
             if (editingItem) {
-                await api.put(`/shop/₹{editingItem._id}`, shopItemData);
+                // CORRECTED: Template literal syntax from ₹{...} to ${...}
+                await api.put(`/shop/${editingItem._id}`, shopItemData);
             } else {
                 await api.post('/shop', shopItemData);
             }
             resetForm();
-            fetchShopItems();
+            fetchShopItems(); // Refresh the list after adding/updating
         } catch (error) {
             console.error("Failed to save item:", error);
+            // Handle error, e.g., show a toast notification
         }
     };
 
@@ -59,7 +64,7 @@ const AdminPage = () => {
         setEditingItem(item);
         setName(item.name);
         setDescription(item.description);
-        setPrice(item.price);
+        setPrice(item.price); // Price might need to be converted to string for input type="number"
         setCategory(item.category);
         setImageUrl(item.imageUrl);
     };
@@ -67,10 +72,12 @@ const AdminPage = () => {
     const deleteHandler = async (id) => {
         if (window.confirm('Are you sure you want to delete this item?')) {
             try {
-                await api.delete(`/shop/₹{id}`);
-                fetchShopItems();
+                // CORRECTED: Template literal syntax from ₹{...} to ${...}
+                await api.delete(`/shop/${id}`);
+                fetchShopItems(); // Refresh the list after deleting
             } catch (error) {
                 console.error("Failed to delete item:", error);
+                // Handle error
             }
         }
     };
@@ -98,6 +105,7 @@ const AdminPage = () => {
                     <textarea id="description" rows="4" placeholder="e.g. A stylish and comfortable chair..." value={description} onChange={e => setDescription(e.target.value)} required />
                     
                     <label htmlFor="price">Price</label>
+                    {/* Ensure price is a string for the input value */}
                     <input id="price" type="number" placeholder="e.g. 199.99" value={price} onChange={e => setPrice(e.target.value)} required />
                     
                     <label htmlFor="category">Category</label>
@@ -130,7 +138,7 @@ const AdminPage = () => {
                                 <tr key={item._id}>
                                     <td>{item.name}</td>
                                     <td>{item.category}</td>
-                                    <td>₹{item.price ? item.price.toFixed(2) : '0.00'}</td>
+                                    <td>₹{item.price ? parseFloat(item.price).toFixed(2) : '0.00'}</td> {/* Ensure price is a number before toFixed */}
                                     <td className="table-actions">
                                         <button className="btn-icon btn-edit" onClick={() => editHandler(item)}>
                                             <EditIcon />
