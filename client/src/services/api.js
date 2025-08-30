@@ -1,20 +1,28 @@
+// src/services/api.js
 import axios from 'axios';
 
-// This line is correct. It will try to use the environment variable first.
-// If REACT_APP_API_URL is not set (e.g., during local development without a .env file),
-// it will fall back to 'http://localhost:5000/api'.
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = 'https://e-commerce-web-app-1-mwiv.onrender.com'; // Your deployed backend URL
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-api.interceptors.request.use((config) => {
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  if (userInfo && userInfo.token) {
-    config.headers.Authorization = `Bearer ${userInfo.token}`;
+// Optional: Add an interceptor to attach token for authenticated requests
+api.interceptors.request.use(
+  (config) => {
+    const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+    if (userInfo && userInfo.token) {
+      config.headers.Authorization = `Bearer ${userInfo.token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
+
 
 export default api;

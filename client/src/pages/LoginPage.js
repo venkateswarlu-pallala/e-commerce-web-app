@@ -1,3 +1,5 @@
+// src/pages/LoginPage.js
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
@@ -23,19 +25,23 @@ const LoginPage = () => {
         try {
             let data;
             if (isLogin) {
-                const response = await api.post('/users/login', { email, password });
+                // FIX: Added '/api' prefix here
+                const response = await api.post('/api/users/login', { email, password });
                 data = response.data;
             } else {
-                const response = await api.post('/users/register', { name, email, password });
+                // FIX: Added '/api' prefix here
+                const response = await api.post('/api/users/register', { name, email, password });
                 data = response.data;
             }
             localStorage.setItem('userInfo', JSON.stringify(data));
             window.location.href = '/'; // Use a hard refresh to update header state
         } catch (err) {
+            // Enhanced error handling for clarity
             setError(err.response?.data?.message || 'An error occurred. Please try again.');
+            console.error('API Error:', err.response?.data || err.message); // Log the full error for debugging
         }
     };
-    
+
     // Reset fields when toggling
     const toggleForm = () => {
         setIsLogin(!isLogin);
@@ -52,7 +58,7 @@ const LoginPage = () => {
                     <Link to="/" className="login-logo">V-shop</Link>
                     <h2>{isLogin ? 'Welcome Back' : 'Create an Account'}</h2>
                 </div>
-                
+
                 {error && <p className="error-message">{error}</p>}
 
                 <form onSubmit={submitHandler} className="login-form">
@@ -94,7 +100,7 @@ const LoginPage = () => {
                             />
                         </div>
                     </div>
-                    
+
                     <button type="submit" className="btn btn-primary btn-glow btn-submit">
                         {isLogin ? 'Log In' : 'Sign Up'}
                     </button>
