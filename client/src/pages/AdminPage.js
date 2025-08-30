@@ -50,7 +50,7 @@ const AdminPage = () => {
                 // CORRECTED: Template literal syntax from ₹{...} to ${...}
                 await api.put(`/shop/${editingItem._id}`, shopItemData);
             } else {
-                await api.post('/shop', shopItemData);
+                await api.post('/api/shop', shopItemData);
             }
             resetForm();
             fetchShopItems(); // Refresh the list after adding/updating
