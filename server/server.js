@@ -6,6 +6,10 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/authroutes');
 const orderRoutes = require('./routes/orderRoutes');
 const shopRoutes = require('./routes/shopRoutes');
+require('./models/orderModels');    // Assuming this registers your Order model
+require('./models/ShopItemModel');  // <--- ADD THIS LINE!
+require('./models/userModel');      // Assuming this registers your User model
+
 const cors = require('cors');
 
 dotenv.config();

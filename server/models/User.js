@@ -1,3 +1,4 @@
+// server/models/UserModel.js
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -7,4 +8,4 @@ const UserSchema = new mongoose.Schema({
   isAdmin: { type: Boolean, default: false },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.models.User || mongoose.model('User', UserSchema);
