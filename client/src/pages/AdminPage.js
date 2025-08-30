@@ -28,8 +28,8 @@ const AdminPage = () => {
     // --- Data Fetching and Handlers ---
     const fetchShopItems = async () => {
         try {
-            // This will now correctly hit your baseURL/shop (e.g., http://localhost:5000/api/shop)
-            const { data } = await api.get('/shop');
+            // CORRECTED: Added /api prefix
+            const { data } = await api.get('/api/shop');
             setShopItems(data);
         } catch (error) {
             console.error("Failed to fetch shop items:", error);
@@ -47,9 +47,10 @@ const AdminPage = () => {
 
         try {
             if (editingItem) {
-                // CORRECTED: Template literal syntax from ₹{...} to ${...}
-                await api.put(`/shop/${editingItem._id}`, shopItemData);
+                // CORRECTED: Added /api prefix
+                await api.put(`/api/shop/${editingItem._id}`, shopItemData);
             } else {
+                // This was already correct
                 await api.post('/api/shop', shopItemData);
             }
             resetForm();
@@ -64,7 +65,8 @@ const AdminPage = () => {
         setEditingItem(item);
         setName(item.name);
         setDescription(item.description);
-        setPrice(item.price); // Price might need to be converted to string for input type="number"
+        // Ensure price is a string for input value
+        setPrice(item.price ? item.price.toString() : ''); 
         setCategory(item.category);
         setImageUrl(item.imageUrl);
     };
@@ -72,8 +74,8 @@ const AdminPage = () => {
     const deleteHandler = async (id) => {
         if (window.confirm('Are you sure you want to delete this item?')) {
             try {
-                // CORRECTED: Template literal syntax from ₹{...} to ${...}
-                await api.delete(`/shop/${id}`);
+                // CORRECTED: Added /api prefix
+                await api.delete(`/api/shop/${id}`);
                 fetchShopItems(); // Refresh the list after deleting
             } catch (error) {
                 console.error("Failed to delete item:", error);
