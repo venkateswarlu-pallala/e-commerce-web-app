@@ -12,7 +12,7 @@ const OrdersPage = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const { data } = await api.get('/orders/myorders');
+                const { data } = await api.get('api/orders/myorders');
                 setOrders(data);
                 // Automatically expand the most recent order by default
                 if (data.length > 0) {
