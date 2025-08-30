@@ -6,15 +6,15 @@ const ShopItem = require('../models/ShopItemModel'); // Ensure this path is corr
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private (Requires user to be logged in)
-const addOrderItems = async (req, res) => {
-  // Destructure the data sent from your new CheckoutPage
-  const { cartItems, shippingAddress } = req.body;
 
-  if (!cartItems || cartItems.length === 0) {
-    // If the cart is empty, send a 400 Bad Request error
-    res.status(400);
-    throw new Error('No order items');
-  }
+  // Destructure the data sent from your new CheckoutPage
+  const addOrderItems = async (req, res, next) => {
+    const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
+
+    if (orderItems && orderItems.length === 0) { // <--- This might be line 16 or close to it
+        res.status(400);
+        throw new Error('No order items');
+    }
 
   try {
     // --- CRITICAL SECURITY STEP: Recalculate the price on the server ---
