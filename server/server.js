@@ -8,7 +8,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 require('./models/orderModels');    // Assuming this registers your Order model
 require('./models/ShopItemModel');  // <--- ADD THIS LINE!
-require('./models/userModel');      // Assuming this registers your User model
+require('./models/User');      // Assuming this registers your User model
 
 const cors = require('cors');
 
