@@ -2,13 +2,14 @@
 
 const express = require('express');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db'); // Assuming you have a DB connection file
-const userRoutes = require('./routes/authroutes'); // Assuming authroutes.js
-const orderRoutes = require('./routes/orderRoutes'); // Assuming orderRoutes.js
-const shopRoutes = require('./routes/shopRoutes'); // <--- THIS IS THE KEY IMPORT
+const connectDB = require('./config/db');
+const userRoutes = require('./routes/authroutes');
+const orderRoutes = require('./routes/orderRoutes');
+const shopRoutes = require('./routes/shopRoutes');
 const cors = require('cors');
+
 dotenv.config();
-connectDB(); // Connect to MongoDB
+connectDB();
 
 const app = express();
 
@@ -16,6 +17,7 @@ const allowedOrigins = [
   'http://localhost:3000',                 // Local React dev
   'https://v-shop-website.netlify.app'          // Your Netlify deployed site
 ];
+
 app.use(cors({
   origin: function (origin, callback) {
     // allow requests with no origin (like mobile apps or curl requests)
@@ -30,10 +32,15 @@ app.use(cors({
   credentials: true, // Allow cookies to be sent
 }));
 
+// --- ADD THIS LINE HERE! ---
+// This middleware is essential for parsing JSON request bodies.
+// It MUST come before your routes that expect JSON in req.body.
+app.use(express.json());
+
 // API Routes
-app.use('/api/users', userRoutes); // For /api/users/register and /api/users/login
-app.use('/api/orders', orderRoutes); // For /api/orders and /api/orders/myorders
-app.use('/api/shop', shopRoutes); // <--- THIS IS THE KEY LINE FOR YOUR SHOP ROUTES
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/shop', shopRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {
