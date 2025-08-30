@@ -64,12 +64,14 @@ const deleteShopItem = async (req, res) => {
     const shopItem = await ShopItem.findById(req.params.id);
 
     if (shopItem) {
-      await shopItem.remove();
+      // Changed from shopItem.remove()
+      await shopItem.deleteOne(); // Or await ShopItem.deleteOne({ _id: req.params.id });
       res.json({ message: 'Shop item removed' });
     } else {
       res.status(404).json({ message: 'Shop item not found' });
     }
   } catch (error) {
+    console.error("Error deleting shop item:", error); // Added for better debugging
     res.status(500).json({ message: 'Server Error' });
   }
 };

@@ -1,31 +1,37 @@
+// server.js (or app.js)
+
 const express = require('express');
 const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db');
+const connectDB = require('./config/db'); // Assuming you have a DB connection file
+const userRoutes = require('./routes/authroutes'); // Assuming authroutes.js
+const orderRoutes = require('./routes/orderRoutes'); // Assuming orderRoutes.js
+const shopRoutes = require('./routes/shopRoutes'); // <--- THIS IS THE KEY IMPORT
 
 dotenv.config();
-connectDB();
+connectDB(); // Connect to MongoDB
 
 const app = express();
 
-// Allowed origins
-const allowedOrigins = [
-  'http://localhost:3000',                 // Local React dev
-  'https://v-shop-website.netlify.app'          // Your Netlify deployed site
-];
+app.use(express.json()); // Body parser for JSON data
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+// API Routes
+app.use('/api/users', userRoutes); // For /api/users/register and /api/users/login
+app.use('/api/orders', orderRoutes); // For /api/orders and /api/orders/myorders
+app.use('/api/shop', shopRoutes); // <--- THIS IS THE KEY LINE FOR YOUR SHOP ROUTES
 
-app.use(express.json());
+// Basic route for testing
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 
-// Define Routes
-app.use('/api/users', require('./routes/authroutes'));
-app.use('/api/shop', require('./routes/shopRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
+// Add a basic error handling middleware (optional but good practice)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
